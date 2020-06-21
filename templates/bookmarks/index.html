@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
     <title>Bookmarks</title>
   </head>
   <body class="bg-dark text-white">
     <div class="container-fluid">
       <div class="row vh-100">
-        <div class="col-3 px-0">
-          <!-- TODO: Make navbar darker than main section -->
+        <div id="nav-column" class="col-3 px-0">
           <nav class="navbar navbar-dark bg-dark text-white sticky-top">
             <div class="navbar-nav">
-              <!-- TODO: Add navbar header -->
-              <!-- TODO: Add links to folder id's in navbar -->
+              <h4>Folders</h4>
               {% if folderList %}
                 {% for folder in folderList %}
-                    <a class="nav-link active" href="#">{{ folder.name }}</a>
+                    <a class="nav-link active" href="#folder-{{ folder.name|lower }}">{{ folder.name }}</a>
                 {% endfor %}
               {% endif %}
             </div>
@@ -27,15 +27,13 @@
         <main class="col-9 border-left border-dark">
           <h2 class="mt-2 mb-4">Bookmarks</h2>
           <div class="container">
-            <!-- TODO: Make bookmark links open in new tab -->
-
             {% if folderList %}
                 {% for folder in folderList %}
-                <div class="folder pb-5">
+                <div class="folder pb-5" id="folder-{{ folder.name|lower }}">
                   <h5 class="folder-title">{{ folder.name }}</h5>
                   <ul class="list-group">
                     {% for bookmark in folder.bookmarks %}
-                    <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center py-1">{{ bookmark.pageTitle }} <a class="btn btn-dark" href="{{ bookmark.pageLink }}">Visit</a></li>
+                    <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center py-1">{{ bookmark.pageTitle }} <a class="btn btn-dark" target="_blank" href="{{ bookmark.pageLink }}">Visit</a></li>
                     {% endfor %}
                   </ul>
                 </div>

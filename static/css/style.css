@@ -1,0 +1,9 @@
+
+
+.bg-dark {
+    background-color: #323440 !important;
+}
+
+.navbar-dark.bg-dark, #nav-column {
+    background-color: #222 !important;
+}
