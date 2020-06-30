@@ -1,0 +1,37 @@
+###############################################################################
+# NAME:             api.py
+#
+# AUTHOR:           Ethan D. Twardy <edtwardy@mtu.edu>
+#
+# DESCRIPTION:      Implements a RESTful API for the application.
+#
+# CREATED:          06/24/2020
+#
+# LAST EDITED:      06/30/2020
+###
+
+from django.http import HttpRequest, HttpResponse
+from .models import Folder, Bookmark
+from django.views.generic.base import View
+
+import json
+
+class FolderCollectionView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        folder = Folder(name=data['name'])
+        folder.save()
+        data['id'] = folder.pk
+        return HttpResponse(json.dumps(data), content_type='text/json')
+
+class BookmarkCollectionView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        folder = Folder.objects.get(name=data['folder'])
+        bookmark = Bookmark(pageTitle=data['pageTitle'],
+                            pageLink=data['pageLink'], folder=folder)
+        bookmark.save()
+        data['id'] = bookmark.pk
+        return HttpResponse(json.dumps(data), content_type='text/json')
+
+###############################################################################
