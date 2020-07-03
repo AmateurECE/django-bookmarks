@@ -24,6 +24,40 @@ class FolderCollectionViewTests(TestCase):
         createdObject = Folder.objects.get(pk=1)
         self.assertEquals(createdObject.name, postData['name'])
 
+    @staticmethod
+    def _verifyFolders(folderObjects, responseObject):
+        for folder in folderObjects:
+            found = False
+            for comparator in responseObject:
+                if comparator['name'] == folder.name:
+                    found = True
+                    break
+            if not found:
+                return found
+        return True
+
+    def testGetAllFolders(self):
+        numberOfFolders = len(Folder.objects.all())
+        response = json.loads(self.client.get(reverse('api-folders')).content)
+        self.assertEqual(numberOfFolders, len(response))
+        self._verifyFolders(Folder.objects.all(), response)
+
+        newFolder = Folder(name='Test Folder One')
+        newFolder.save()
+        numberOfFolders += 1
+        self.assertEqual(len(Folder.objects.all()), numberOfFolders)
+        response = json.loads(self.client.get(reverse('api-folders')).content)
+        self.assertEqual(numberOfFolders, len(response))
+        self._verifyFolders(Folder.objects.all(), response)
+
+        newFolder = Folder(name='Test Folder Two')
+        newFolder.save()
+        numberOfFolders += 1
+        self.assertEqual(len(Folder.objects.all()), numberOfFolders)
+        response = json.loads(self.client.get(reverse('api-folders')).content)
+        self.assertEqual(numberOfFolders, len(response))
+        self._verifyFolders(Folder.objects.all(), response)
+
 class BookmarkCollectionViewTests(TestCase):
     def setUp(self):
         self.testFolder = {'name': 'TestFolder'}

@@ -7,7 +7,7 @@
 #
 # CREATED:          06/24/2020
 #
-# LAST EDITED:      06/30/2020
+# LAST EDITED:      07/03/2020
 ###
 
 from django.http import HttpRequest, HttpResponse
@@ -18,11 +18,19 @@ import json
 
 class FolderCollectionView(View):
     def post(self, request, *args, **kwargs):
+        """Create a new folder"""
         data = json.loads(request.body)
         folder = Folder(name=data['name'])
         folder.save()
         data['id'] = folder.pk
         return HttpResponse(json.dumps(data), content_type='text/json')
+
+    def get(self, request, *args, **kwargs):
+        """Read the entire list of folders"""
+        folders = []
+        for dbObject in Folder.objects.all():
+            folders.append({'name': dbObject.name})
+        return HttpResponse(json.dumps(folders), content_type='text/json')
 
 class BookmarkCollectionView(View):
     def post(self, request, *args, **kwargs):
