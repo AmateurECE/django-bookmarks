@@ -42,22 +42,6 @@ Response:
 ```
 
 ## Read
-### Reading A Single Bookmark
-```
-GET /api/bookmark/<bookmarkId>
-```
-
-Response:
-
-```
-{
-  "id": "<theBookmarkPrimaryKey>",
-  "pageLink": "<thePageLink>",
-  "pageTitle": "<thePageTitle>",
-  "folder": "<theFolderName>"
-}
-```
-
 ### Reading Bulk Folders
 ```
 GET /api/folders/
