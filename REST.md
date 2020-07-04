@@ -3,7 +3,7 @@
 This API implements the standard CRUD operations.
 
 ## Create
-### Creating A Folder
+### Creating A Folder (Implemented)
 ```
 POST /api/folders/
 {
@@ -20,7 +20,7 @@ Response:
 }
 ```
 
-### Creating A Bookmark
+### Creating A Bookmark (Implemented)
 ```
 POST /api/bookmarks/
 {
@@ -42,7 +42,7 @@ Response:
 ```
 
 ## Read
-### Reading Bulk Folders
+### Reading Bulk Folders (Implemented)
 ```
 GET /api/folders/
 ```
@@ -105,7 +105,7 @@ PUT /api/bookmark/<bookmarkId>
 DELETE /api/folder/<folderId>
 ```
 
-### Deleting A Bookmark
+### Deleting A Bookmark (Implemented)
 ```
 DELETE /api/bookmark/<bookmarkId>
 ```

@@ -91,3 +91,33 @@ class BookmarkCollectionViewTests(TestCase):
         self.assertEquals(createdBookmark.pageLink, bookmarkData['pageLink'])
         createdTestFolder = Folder.objects.get(name=self.testFolder['name'])
         self.assertEquals(createdBookmark.folder, createdTestFolder)
+
+class BookmarkViewTests(TestCase):
+    def setUp(self):
+        self.testFolder = {'name': 'TestFolder'}
+        self.testFolderInstance = Folder(name=self.testFolder['name'])
+        self.testFolderInstance.save()
+
+    def testDeleteBookmark(self):
+        testBookmarkId = 1 # The test database should be empty
+        # Verify that the test database is empty, so that the id of 1 works
+        self.assertRaises(Bookmark.DoesNotExist, Bookmark.objects.get,
+                          pk=testBookmarkId)
+        response = self.client.delete(
+            reverse('api-bookmark', kwargs={'bookmarkId': testBookmarkId}))
+
+        # Attempting to delete a bookmark that does not exist returns 404
+        self.assertEquals(response.status_code, 404)
+
+        testBookmark = Bookmark(
+            pageTitle='Google', pageLink='https://www.google.com',
+            folder=self.testFolderInstance)
+        testBookmark.save()
+        self.assertEquals(testBookmark.pk, testBookmarkId)
+        response = self.client.delete(
+            reverse('api-bookmark', kwargs={'bookmarkId': testBookmarkId}))
+        self.assertEquals(response.status_code, 200)
+
+        # Ensure the bookmark was deleted.
+        self.assertRaises(Bookmark.DoesNotExist, Bookmark.objects.get,
+                          pk=testBookmarkId)
