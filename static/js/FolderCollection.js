@@ -13,6 +13,7 @@
 import { Folder } from './Folder.js';
 
 export class FolderCollection {
+    static host = '';
     static path = 'api/folders/';
 
     static async create(folder, token) {
@@ -20,13 +21,14 @@ export class FolderCollection {
             throw new Error('Cannot create a folder without a name');
         }
 
-        const response = await fetch(FolderCollection.path, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': token},
-            body: JSON.stringify({name: folder.name})
-        });
+        const response = await fetch(
+            FolderCollection.host + FolderCollection.path, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': token},
+                body: JSON.stringify({name: folder.name})
+            });
 
         if (response.ok) {
             const data = await response.json();
@@ -38,9 +40,10 @@ export class FolderCollection {
     }
 
     static async read(folder) {
-        const response = await fetch(FolderCollection.path, {
-            method: 'GET'
-        });
+        const response = await fetch(
+            FolderCollection.host + FolderCollection.path, {
+                method: 'GET'
+            });
 
         if (response.ok) {
             const responseData = await response.json();

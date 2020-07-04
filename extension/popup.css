@@ -1,0 +1,64 @@
+
+
+/* Popup CSS */
+:root {
+    --error-text-color: #721c24;
+    --error-background-color: #f8d7da;
+    --error-border-color: #f5c6cb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #666;
+    width: 400px;
+    margin: 0;
+}
+
+form {
+    margin-bottom: 0;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+label {
+    display: inline-block !important;
+    width: 55px;
+    color: white;
+    padding-bottom: 10px;
+}
+
+.row input, .row select {
+    display: inline-block !important;
+    flex-grow: 2;
+}
+
+button {
+    display: block;
+    background: white;
+    margin-bottom: 0;
+}
+
+.error-banner {
+    display: none;
+    color: var(--error-text-color);
+    background-color: var(--error-background-color);
+    border: 2px solid var(--error-border-color);
+    border-radius: 3px;
+    margin: 0 10px 10px 10px;
+}
+
+footer {
+    background: #444;
+    color: white;
+    padding: 12px;
+    font-size: 11px;
+    text-align: center;
+}
