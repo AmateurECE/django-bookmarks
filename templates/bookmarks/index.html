@@ -11,6 +11,22 @@
     <title>Bookmarks</title>
   </head>
   <body class="bg-dark text-white">
+    <div class="form-overlay">
+      <div id="new-folder-form" class="form">
+        <h5>Add a new Folder</h5>
+        <form action="">
+          <div class="form-input-group">
+            <label for="name">Name</label>
+            <input name="name" type="text" value="" placeholder="Folder Name"/>
+          </div>
+          <div class="form-submit-group">
+            <button class="btn btn-dark submit okay">Okay</button>
+            <button class="btn btn-dark submit cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="container-fluid">
       <div class="row vh-100">
         <div id="nav-column" class="col-3 px-0">
@@ -22,11 +38,13 @@
                   <img alt="new folder" src="{% static "images/new-folder.svg" %}"/>
                 </div>
               </div>
-              {% if folderList %}
-              {% for folder in folderList %}
-              <a class="nav-link active" href="#folder-{{ folder.name|lower }}">{{ folder.name }}</a>
-              {% endfor %}
-              {% endif %}
+              <div id="folder-list">
+                {% if folderList %}
+                {% for folder in folderList %}
+                <a class="nav-link active" href="#folder-{{ folder.name|lower }}">{{ folder.name }}</a>
+                {% endfor %}
+                {% endif %}
+              </div>
             </div>
           </nav>
         </div>
