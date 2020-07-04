@@ -7,7 +7,7 @@
 #
 # CREATED:          06/24/2020
 #
-# LAST EDITED:      07/03/2020
+# LAST EDITED:      07/04/2020
 ###
 
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
@@ -23,14 +23,15 @@ class FolderCollectionView(View):
         folder = Folder(name=data['name'])
         folder.save()
         data['id'] = folder.pk
-        return HttpResponse(json.dumps(data), content_type='text/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
     def get(self, request, *args, **kwargs):
         """Read the entire list of folders"""
         folders = []
         for dbObject in Folder.objects.all():
             folders.append({'name': dbObject.name})
-        return HttpResponse(json.dumps(folders), content_type='text/json')
+        return HttpResponse(json.dumps(folders),
+                            content_type='application/json')
 
 class BookmarkCollectionView(View):
     def post(self, request, *args, **kwargs):
@@ -41,7 +42,7 @@ class BookmarkCollectionView(View):
                             pageLink=data['pageLink'], folder=folder)
         bookmark.save()
         data['id'] = bookmark.pk
-        return HttpResponse(json.dumps(data), content_type='text/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 class BookmarkView(View):
     def delete(self, request, *args, **kwargs):

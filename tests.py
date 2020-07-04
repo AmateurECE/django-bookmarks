@@ -13,10 +13,10 @@ class FolderCollectionViewTests(TestCase):
         # Do request
         response = self.client.post(reverse('api-folders'),
                                     json.dumps(postData),
-                                    content_type='text/json')
+                                    content_type='application/json')
         # Verify response
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response['content-type'], 'text/json')
+        self.assertEquals(response['content-type'], 'application/json')
         responseData = json.loads(response.content)
         self.assertEquals(responseData['id'], 1)
         self.assertEquals(responseData['name'], postData['name'])
@@ -62,7 +62,7 @@ class BookmarkCollectionViewTests(TestCase):
     def setUp(self):
         self.testFolder = {'name': 'TestFolder'}
         self.client.post(reverse('api-folders'), json.dumps(self.testFolder),
-                         content_type='text/json')
+                         content_type='application/json')
 
     def testCreateBookmark(self):
         bookmarkData = {
@@ -76,10 +76,10 @@ class BookmarkCollectionViewTests(TestCase):
         # Create the bookmark
         response = self.client.post(reverse('api-bookmarks'),
                                     json.dumps(bookmarkData),
-                                    content_type='text/json')
+                                    content_type='application/json')
         # Verify the response
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response['content-type'], 'text/json')
+        self.assertEquals(response['content-type'], 'application/json')
         responseData = json.loads(response.content)
         self.assertEquals(responseData['id'], 1)
         self.assertEquals(responseData['pageTitle'], bookmarkData['pageTitle'])
