@@ -27,3 +27,38 @@
 .navbar-nav .row > div path {
     fill: white;
 }
+
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-transitioner {
+    /* This is the size of the image, and must be
+       changed if the image changes. */
+    width: 42px;
+    height: 30px;
+    position: relative;
+}
+
+.button-transitioner img {
+    position: absolute;
+}
+
+.button-transitioner img.top {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.button-transitioner img.top:hover {
+    opacity: 1;
+}
+
+.button-transitioner img.bottom {
+    transition: opacity 0.15s ease-in-out;
+}
+
+.button-transitioner img.bottom.selected {
+    opacity: 0;
+}
