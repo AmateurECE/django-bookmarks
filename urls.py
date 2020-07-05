@@ -5,6 +5,7 @@ from . import api
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('extension/', views.extension, name='extension'),
     path('api/folders/', api.FolderCollectionView.as_view(),
          name='api-folders'),
     path('api/bookmarks/', api.BookmarkCollectionView.as_view(),

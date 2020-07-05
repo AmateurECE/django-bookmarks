@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.middleware import csrf
+from django.http import HttpResponse
+import json
 
 from .models import Folder, Bookmark
 
@@ -11,4 +14,8 @@ def index(request):
             bookmarks = Bookmark.objects.filter(folder=folder)
             folder.bookmarks = bookmarks
         context = {'folderList': folderList}
-    return render(request, 'bookmarks/index.html', context)
+    return render(request, 'index.html', context)
+
+def extension(request):
+    return HttpResponse(json.dumps({'token': csrf.get_token(request)}),
+                        content_type='application/json')

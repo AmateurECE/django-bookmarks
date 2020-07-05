@@ -11,7 +11,8 @@
 ////
 
 export class Bookmark {
-    path = 'api/bookmark/';
+    static host = '';
+    static path = 'api/bookmark/';
 
     constructor(parameters) {
         if (parameters.hasOwnProperty('id')
@@ -35,10 +36,6 @@ export class Bookmark {
         }
     }
 
-    create() { throw Error('Unimplemented method: create'); }
-
-    read() { throw Error('Unimplemented method: read'); }
-
     update() { throw Error('Unimplemented method: update'); }
 
     async delete(token) {
@@ -47,7 +44,7 @@ export class Bookmark {
                             + ' instantiated with an id. Call read() first '
                             + 'to obtain the id.');
         }
-        const response = await fetch(this.path + this.id + '/', {
+        const response = await fetch(this.host + this.path + this.id + '/', {
             method: 'DELETE',
             headers: {'X-CSRFToken': token}
         });
