@@ -7,7 +7,7 @@
 //
 // CREATED:         07/04/2020
 //
-// LAST EDITED:     07/04/2020
+// LAST EDITED:     07/06/2020
 ////
 
 import { Bookmark } from 'api/Bookmark.js';
@@ -35,15 +35,26 @@ export class BookmarkCollection {
                     folder: bookmark.folder})
             });
 
-        if (!response.ok) {
-            bookmark.id = await response.json().id;
+        if (response.ok) {
+            bookmark.id = (await response.json()).id;
             return new Bookmark(bookmark);
         }
 
         throw new Error('POST request failed');
     }
 
-    static async read() { throw new Error('Unimplemented method: read'); }
+    static async read() {
+        const response = await fetch(
+            BookmarkCollection.host + BookmarkCollection.path, {
+                method: 'GET'
+            });
+
+        if (response.ok) {
+            return await response.json();
+        }
+
+        throw new Error('Could not read bookmarks from the server');
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

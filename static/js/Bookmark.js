@@ -7,7 +7,7 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/04/2020
+// LAST EDITED:     07/06/2020
 ////
 
 export class Bookmark {
@@ -16,8 +16,11 @@ export class Bookmark {
 
     constructor(parameters) {
         if (parameters.hasOwnProperty('id')
-            && typeof(parameters.id) === 'string') {
+            && typeof(parameters.id) === 'number') {
             this.id = parameters.id;
+        } else if (parameters.hasOwnProperty('id')
+                   && typeof(parameters.id) === 'string') {
+            this.id = parseInt(parameters.id);
         }
 
         if (parameters.hasOwnProperty('folder')
@@ -44,10 +47,11 @@ export class Bookmark {
                             + ' instantiated with an id. Call read() first '
                             + 'to obtain the id.');
         }
-        const response = await fetch(this.host + this.path + this.id + '/', {
-            method: 'DELETE',
-            headers: {'X-CSRFToken': token}
-        });
+        const response = await fetch(
+            Bookmark.host + Bookmark.path + this.id + '/', {
+                method: 'DELETE',
+                headers: {'X-CSRFToken': token}
+            });
     }
 }
 

@@ -7,7 +7,7 @@
 #
 # CREATED:          06/24/2020
 #
-# LAST EDITED:      07/04/2020
+# LAST EDITED:      07/06/2020
 ###
 
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
@@ -43,6 +43,16 @@ class BookmarkCollectionView(View):
         bookmark.save()
         data['id'] = bookmark.pk
         return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def get(self, request, *args, **kwargs):
+        """Read the entire set of bookmarks"""
+        bookmarks = []
+        for dbObject in Bookmark.objects.all():
+            bookmarks.append({'id': dbObject.pk, 'pageLink': dbObject.pageLink,
+                              'pageTitle': dbObject.pageTitle,
+                              'folder': dbObject.folder.name})
+        return HttpResponse(json.dumps(bookmarks),
+                            content_type='application/json')
 
 class BookmarkView(View):
     def delete(self, request, *args, **kwargs):

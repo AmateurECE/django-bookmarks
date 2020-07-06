@@ -92,6 +92,21 @@ class BookmarkCollectionViewTests(TestCase):
         createdTestFolder = Folder.objects.get(name=self.testFolder['name'])
         self.assertEquals(createdBookmark.folder, createdTestFolder)
 
+    def testReadBookmarks(self):
+        """Test the ability to read all the bookmarks"""
+        testBookmark = Bookmark(
+            pageTitle='Google', pageLink='https://www.google.com',
+            folder=Folder.objects.get(name=self.testFolder['name']))
+        testBookmark.save()
+
+        count = Bookmark.objects.count()
+        self.assertGreater(count, 0)
+        response = self.client.get(reverse('api-bookmarks'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['content-type'], 'application/json')
+        responseData = json.loads(response.content)
+        self.assertEquals(len(responseData), count)
+
 class BookmarkViewTests(TestCase):
     def setUp(self):
         self.testFolder = {'name': 'TestFolder'}
