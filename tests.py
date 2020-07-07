@@ -136,3 +136,31 @@ class BookmarkViewTests(TestCase):
         # Ensure the bookmark was deleted.
         self.assertRaises(Bookmark.DoesNotExist, Bookmark.objects.get,
                           pk=testBookmarkId)
+
+    def testUpdateBookmark(self):
+        # Should be zero bookmarks in the test database
+        self.assertEquals(Bookmark.objects.count(), 0)
+        bookmark = Bookmark(
+            pageLink='https://www.google.com', pageTitle='Google',
+            folder=self.testFolderInstance)
+        bookmark.save()
+        testBookmarkId = bookmark.pk
+        bookmarkData = {
+            'id': testBookmarkId,
+            'pageLink': bookmark.pageLink,
+            'pageTitle': 'Google - The World\'s Most Popular Search Engine',
+            'folder': bookmark.folder.name
+        }
+        response = self.client.put(
+            reverse('api-bookmark', kwargs={'bookmarkId': testBookmarkId}),
+            json.dumps(bookmarkData), content_type='application/json')
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['content-type'], 'application/json')
+        bookmark = Bookmark.objects.get(pk=testBookmarkId)
+        updatedBookmarkData = {
+            'id': testBookmarkId,
+            'pageLink': bookmark.pageLink,
+            'pageTitle': bookmark.pageTitle,
+            'folder': bookmark.folder.name
+        }
+        self.assertEquals(bookmarkData, updatedBookmarkData)

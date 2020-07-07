@@ -59,7 +59,7 @@ Response:
 ]
 ```
 
-### Reading Bulk Bookmarks
+### Reading Bulk Bookmarks (Implemented)
 ```
 GET /api/bookmarks/
 ```
@@ -88,7 +88,7 @@ PUT /api/bookmark/<folderId>
 }
 ```
 
-### Updating A Bookmark
+### Updating A Bookmark (Implemented)
 ```
 PUT /api/bookmark/<bookmarkId>
 {

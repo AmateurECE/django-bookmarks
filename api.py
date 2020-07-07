@@ -7,7 +7,7 @@
 #
 # CREATED:          06/24/2020
 #
-# LAST EDITED:      07/06/2020
+# LAST EDITED:      07/07/2020
 ###
 
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
@@ -61,6 +61,30 @@ class BookmarkView(View):
             bookmark = Bookmark.objects.get(pk=kwargs['bookmarkId'])
             bookmark.delete()
             return HttpResponse()
+        except Bookmark.DoesNotExist:
+            return HttpResponseNotFound()
+
+    def put(self, request, *args, **kwargs):
+        """Update the selected bookmark with new attributes"""
+        try:
+            bookmark = Bookmark.objects.get(pk=kwargs['bookmarkId'])
+            newData = json.loads(request.body)
+            if 'pageTitle' in newData:
+                bookmark.pageTitle = newData['pageTitle']
+            if 'pageLink' in newData:
+                bookmark.pageLink = newData['pageLink']
+            try:
+                bookmark.folder = Folder.objects.get(name=newData['folder'])
+            except (KeyError, Folder.DoesNotExist):
+                pass
+
+            bookmark.save()
+            return HttpResponse(json.dumps({
+                'id': bookmark.pk,
+                'pageLink': bookmark.pageLink,
+                'pageTitle': bookmark.pageTitle,
+                'folder': bookmark.folder.name,
+            }), content_type='application/json')
         except Bookmark.DoesNotExist:
             return HttpResponseNotFound()
 
