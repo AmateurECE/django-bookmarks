@@ -29,7 +29,7 @@
 
     <div class="container-fluid">
       <div class="row vh-100">
-        <div id="nav-column" class="col-3 px-0 bg-real-dark">
+        <div id="nav-column" class="col-3 col-lg-2 px-0 bg-real-dark">
           <nav class="navbar navbar-dark bg-real-dark text-white sticky-top">
             <div class="navbar-nav">
               <div class="row">
@@ -73,8 +73,9 @@
               </ul>
 
               {% else %}
+              <div class="folder-grid">
               {% for bookmark in folder.bookmark_set.all %}
-              <div id="bookmark-{{ bookmark.pk }}" class="card bg-real-dark mb-3">
+              <div id="bookmark-{{ bookmark.pk }}" class="card bg-real-dark mb-3 mr-3">
                 <img class="card-img-top" src="{% static 'images/loadingThumbnail.svg' %}" alt="Card image cap"/>
                 <div class="card-body py-2">
                   <p class="mb-2">{{ bookmark.pageTitle }}</p>
@@ -88,6 +89,7 @@
                 </div>
               </div>
               {% endfor %}
+              </div>
               {% endifequal %}
             </div>
             {% endfor %}

@@ -35,6 +35,11 @@
     fill: white;
 }
 
+.folder-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .action-container {
     display: flex;
     justify-content: space-between;
@@ -42,9 +47,15 @@
 }
 
 .card {
-    display: inline-flex;
+    display: flex;
     width: 320px; /* Comes from image width */
     align-items: top;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .button-transitioner {
