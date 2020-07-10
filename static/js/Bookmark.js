@@ -7,12 +7,12 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/06/2020
+// LAST EDITED:     07/10/2020
 ////
 
 export class Bookmark {
     static host = '';
-    static path = 'api/bookmark/';
+    static path = '/bookmarks/api/bookmark/';
 
     constructor(parameters) {
         if (parameters.hasOwnProperty('id')

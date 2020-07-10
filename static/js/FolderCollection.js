@@ -7,14 +7,14 @@
 //
 // CREATED:         07/04/2020
 //
-// LAST EDITED:     07/04/2020
+// LAST EDITED:     07/10/2020
 ////
 
 import { Folder } from './Folder.js';
 
 export class FolderCollection {
     static host = '';
-    static path = 'api/folders/';
+    static path = '/bookmarks/api/folders/';
 
     static async create(folder, token) {
         if (!folder.hasOwnProperty('name') || !folder.name) {

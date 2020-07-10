@@ -49,7 +49,7 @@
           </nav>
         </div>
 
-        <main class="col-9 border-left border-dark">
+        <main class="col-9 col-lg-10 border-left border-dark">
           <h2 class="mt-2 mb-4">Bookmarks</h2>
           <div class="container" id="bookmark-container">
             {% csrf_token %}
@@ -76,7 +76,11 @@
               <div class="folder-grid">
               {% for bookmark in folder.bookmark_set.all %}
               <div id="bookmark-{{ bookmark.pk }}" class="card bg-real-dark mb-3 mr-3">
-                <img class="card-img-top" src="{% static 'images/loadingThumbnail.svg' %}" alt="Card image cap"/>
+                {% ifequal bookmark.thumbnail.name 'blank.svg' %}
+                <img class="card-img-top" src="{% static 'images/blankThumbnail.svg' %}" alt="Card image cap"/>
+                {% else %}
+                <img class="card-img-top" src="{{ bookmark.thumbnail.url }}" alt="Card image cap"/>
+                {% endifequal %}
                 <div class="card-body py-2">
                   <p class="mb-2">{{ bookmark.pageTitle }}</p>
                   <div class="action-container">

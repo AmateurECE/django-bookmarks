@@ -48,14 +48,24 @@
 
 .card {
     display: flex;
-    width: 320px; /* Comes from image width */
+    width: 200px; /* Almost arbitrary, but creates uniform image size */
     align-items: top;
+}
+
+.card-img-top {
+    max-height: 120px; /* Almost arbitrary, but creates uniform image size */
+    object-fit: contain;
 }
 
 .card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+img[src="/static/images/blankThumbnail.svg"] {
+    border: 4px dashed gray;
+    border-radius: 10px;
 }
 
 .button-transitioner {

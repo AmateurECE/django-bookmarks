@@ -7,7 +7,7 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/04/2020
+// LAST EDITED:     07/10/2020
 ////
 
 import { Bookmark } from './Bookmark.js';
@@ -54,10 +54,15 @@ function deleteBookmark(event) {
 
     // We now have a reference to the top delete button.
     // Delete the bookmark containing this button.
-    const ui_listItem = deleteLink.parentElement.parentElement.parentElement;
+    let ui_listItem = deleteLink.parentElement.parentElement.parentElement;
+    let pageTitle = ui_listItem.firstChild.textContent.trim();
+    if (!ui_listItem.id.includes('bookmark')) {
+        ui_listItem = ui_listItem.parentElement;
+        pageTitle = deleteLink.parentElement.parentElement
+            .previousElementSibling.textContent.trim();
+    }
 
     // Confirm
-    const pageTitle = ui_listItem.firstChild.textContent.trim();
     if (!confirmAction(`Delete "${pageTitle}"?`)) {
         return;
     }

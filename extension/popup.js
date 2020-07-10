@@ -7,21 +7,21 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/06/2020
+// LAST EDITED:     07/10/2020
 ////
 
 import { FolderCollection } from 'api/FolderCollection.js';
 import { BookmarkCollection } from 'api/BookmarkCollection.js';
 import { Bookmark } from 'api/Bookmark.js';
 
-const hostName = 'http://localhost:8000/bookmarks/';
+const hostName = 'http://localhost:8000';
 FolderCollection.host = hostName;
 BookmarkCollection.host = hostName;
 Bookmark.host = hostName;
 
 // Initialize the CSRF token
 let csrfToken;
-fetch(hostName + 'extension/', { method: 'GET' })
+fetch(hostName + '/bookmarks/extension/', { method: 'GET' })
     .then(response => response.json())
     .then(data => csrfToken = data.token);
 

@@ -7,14 +7,14 @@
 //
 // CREATED:         07/04/2020
 //
-// LAST EDITED:     07/06/2020
+// LAST EDITED:     07/10/2020
 ////
 
 import { Bookmark } from 'api/Bookmark.js';
 
 export class BookmarkCollection {
     static host = '';
-    static path = 'api/bookmarks/';
+    static path = '/bookmarks/api/bookmarks/';
 
     static async create(bookmark, token) {
         if (!bookmark.hasOwnProperty('pageTitle') || !bookmark.pageTitle ||

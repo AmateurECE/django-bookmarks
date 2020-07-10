@@ -12,3 +12,4 @@ class Bookmark(models.Model):
     pageLink = models.CharField(max_length=512)
     pageTitle = models.CharField(max_length=128)
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+    thumbnail = models.ImageField(upload_to='thumbnails', default='blank.svg')
