@@ -39,8 +39,8 @@
                 </div>
               </div>
               <div id="folder-list">
-                {% if folderList %}
-                {% for folder in folderList %}
+                {% if folder_list %}
+                {% for folder in folder_list %}
                 <a class="nav-link active" href="#folder-{{ folder.name|lower }}">{{ folder.name }}</a>
                 {% endfor %}
                 {% endif %}
@@ -53,13 +53,13 @@
           <h2 class="mt-2 mb-4">Bookmarks</h2>
           <div class="container" id="bookmark-container">
             {% csrf_token %}
-            {% if folderList %}
-            {% for folder in folderList %}
+            {% if folder_list %}
+            {% for folder in folder_list %}
             <div class="folder pb-5" id="folder-{{ folder.name|lower }}">
               <h5 class="folder-title">{{ folder.name }}</h5>
               {% ifequal display 'list' %}
               <ul class="list-group">
-                {% for bookmark in folder.bookmarks %}
+                {% for bookmark in folder.bookmark_set.all %}
                 <li id="bookmark-{{ bookmark.pk }}"class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center py-1">{{ bookmark.pageTitle }}
                 <div class="action-container">
                   <a class="btn btn-outline-dark" target="_blank" href="{{ bookmark.pageLink }}">Visit</a>
@@ -72,7 +72,7 @@
                 {% endfor %}
               </ul>
               {% else %}
-              {% for bookmark in folder.bookmarks %}
+              {% for bookmark in folder.bookmark_set.all %}
               <div id="bookmark-{{ bookmark.pk }}" class="card bg-real-dark mb-3">
                 <img class="card-img-top" src="{% static 'images/loadingThumbnail.svg' %}" alt="Card image cap"/>
                 <div class="card-body py-2">

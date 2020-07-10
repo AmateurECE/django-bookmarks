@@ -4,8 +4,9 @@ from . import views
 from . import api
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    re_path(r'^(?P<display>cards?)', views.index, name='index'),
+    path('', views.BookmarkListView.as_view(), name='index'),
+    re_path(r'^(?P<display>cards?)', views.BookmarkListView.as_view(),
+            name='index'),
     path('extension/', views.extension, name='extension'),
     path('api/folders/', api.FolderCollectionView.as_view(),
          name='api-folders'),

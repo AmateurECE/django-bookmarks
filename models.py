@@ -5,6 +5,9 @@ from django.db import models
 class Folder(models.Model):
     name = models.CharField(max_length=16)
 
+    class Meta:
+        ordering = ['name']
+
 class Bookmark(models.Model):
     pageLink = models.CharField(max_length=512)
     pageTitle = models.CharField(max_length=128)
