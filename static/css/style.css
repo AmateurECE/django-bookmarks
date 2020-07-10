@@ -41,6 +41,12 @@
     align-items: center;
 }
 
+.card {
+    display: inline-flex;
+    width: 320px; /* Comes from image width */
+    align-items: top;
+}
+
 .button-transitioner {
     /* This is the size of the image, and must be
        changed if the image changes. */

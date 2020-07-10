@@ -57,6 +57,7 @@
             {% for folder in folderList %}
             <div class="folder pb-5" id="folder-{{ folder.name|lower }}">
               <h5 class="folder-title">{{ folder.name }}</h5>
+              {% ifequal display 'list' %}
               <ul class="list-group">
                 {% for bookmark in folder.bookmarks %}
                 <li id="bookmark-{{ bookmark.pk }}"class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center py-1">{{ bookmark.pageTitle }}
@@ -70,6 +71,23 @@
                 </li>
                 {% endfor %}
               </ul>
+              {% else %}
+              {% for bookmark in folder.bookmarks %}
+              <div id="bookmark-{{ bookmark.pk }}" class="card bg-real-dark mb-3">
+                <img class="card-img-top" src="{% static 'images/loadingThumbnail.svg' %}" alt="Card image cap"/>
+                <div class="card-body py-2">
+                  <p class="mb-2">{{ bookmark.pageTitle }}</p>
+                  <div class="action-container">
+                    <a class="btn btn-outline-dark" target="_blank" href="{{ bookmark.pageLink }}">Visit</a>
+                    <div class="button-transitioner">
+                      <img class="btn delete bottom" alt="delete" src="{% static "images/delete.svg" %}"/>
+                      <img class="btn delete top" alt="delete" src="{% static "images/delete-filled.svg" %}"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% endifequal %}
             </div>
             {% endfor %}
             {% else %}

@@ -6,14 +6,14 @@ import json
 from .models import Folder, Bookmark
 
 # Create your views here.
-def index(request):
+def index(request, display="list"):
     folderList = Folder.objects.order_by('name')
     context = {'folderList': None}
     if folderList:
         for folder in folderList:
             bookmarks = Bookmark.objects.filter(folder=folder)
             folder.bookmarks = bookmarks
-        context = {'folderList': folderList}
+        context = {'folderList': folderList, 'display': display}
     return render(request, 'index.html', context)
 
 def extension(request):
