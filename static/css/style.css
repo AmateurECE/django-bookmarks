@@ -10,7 +10,7 @@
     background-color: var(--medium-dark-bg) !important;
 }
 
-.navbar-dark.bg-dark, #nav-column {
+.bg-real-dark {
     background-color: var(--dark-dark-bg) !important;
 }
 
