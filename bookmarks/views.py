@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.middleware import csrf
 from django.http import HttpResponse
 from django.views import generic
+from django.contrib.auth.mixins import PermissionRequiredMixin
 import json
 
 from .models import Folder, Bookmark
@@ -21,3 +22,10 @@ class BookmarkListView(generic.ListView):
 def extension(request):
     return HttpResponse(json.dumps({'token': csrf.get_token(request)}),
                         content_type='application/json')
+
+###############################################################################
+# Protected Views
+###
+
+class ProtectedBookmarkListView(PermissionRequiredMixin, BookmarkListView):
+    permission_required = 'bookmarks.view_bookmark'
