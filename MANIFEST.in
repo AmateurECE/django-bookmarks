@@ -1,0 +1,4 @@
+include static/js/build/bundle.js
+recursive-include static/css *
+recursive-include static/images *
+recursive-include templates *
