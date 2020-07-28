@@ -14,8 +14,18 @@ INSTALLED_APPS = [
 And plug its urls into your project's `urls.py` file:
 
 ```
-urlpatterns = [
+urlpatterns += [
     path('bookmarks/', include('bookmarks.urls')),
+]
+```
+
+Or to utilize the protected urls, which require a logged in user with the
+permissions `bookmarks.(view|change|add|delete)_(folder|bookmarks)` (depending
+on which urls are accessed):
+
+```
+urlpatterns += [
+    path('bookmarks/', include('bookmarks.protected_urls')),
 ]
 ```
 
