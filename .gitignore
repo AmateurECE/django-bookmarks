@@ -3,3 +3,4 @@ __pycache__
 /node_modules/
 bookmarks/static/bookmarks/js/
 extension/build/
+/js/APIKeys.js

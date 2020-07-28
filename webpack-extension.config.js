@@ -20,7 +20,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            api: path.resolve(__dirname, './static/js')
+            api: path.resolve(__dirname, './js')
         }
     }
 };

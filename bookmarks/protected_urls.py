@@ -1,17 +1,16 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
+from rest_framework import routers
 
 from . import views
-from . import api
+
+router = routers.DefaultRouter()
+router.register(r'bookmarks', views.ProtectedBookmarkViewSet)
+router.register(r'folders', views.ProtectedFolderViewSet)
 
 urlpatterns = [
     path('', views.ProtectedBookmarkListView.as_view(), name='index'),
     re_path(r'^(?P<display>cards?)', views.ProtectedBookmarkListView.as_view(),
             name='index'),
     path('extension/', views.extension, name='extension'),
-    path('api/folders/', api.ProtectedFolderCollectionView.as_view(),
-         name='api-folders'),
-    path('api/bookmarks/', api.ProtectedBookmarkCollectionView.as_view(),
-         name='api-bookmarks'),
-    path('api/bookmark/<int:bookmarkId>/', api.ProtectedBookmarkView.as_view(),
-         name='api-bookmark'),
+    path('api/', include(router.urls)),
 ]

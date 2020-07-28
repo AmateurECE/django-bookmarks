@@ -17,6 +17,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.5',
+    install_requires=['django', 'djangorestframework'],
     provides=['django_bookmarks'],
     include_package_data=True,
 )

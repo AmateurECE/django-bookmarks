@@ -17,5 +17,6 @@ cat - >>index.html <<EOF
 </html>
 EOF
 
+directory=/var/www/edtwardy.hopto.org/pypi/django-bookmarks/
 rsync -e 'ssh -p 5000' -rv --delete dist django_bookmarks.egg-info index.html \
-      edtwardy@192.168.1.60:/var/www/edtwardy.hopto.org/pypi/django-bookmarks/
+      edtwardy@edtwardy.hopto.org:$directory

@@ -7,7 +7,7 @@
 //
 // CREATED:         07/04/2020
 //
-// LAST EDITED:     07/04/2020
+// LAST EDITED:     07/28/2020
 ////
 
 export class Folder {
@@ -16,8 +16,8 @@ export class Folder {
             this.name = folder.name;
         }
 
-        if (folder.hasOwnProperty('id') && folder.id) {
-            this.id = folder.id;
+        if (folder.hasOwnProperty('url') && folder.url) {
+            this.url = folder.url;
         }
     }
 

@@ -1,12 +1,15 @@
 # Bookmark Collector
 
 To utilize this Django application, add it to your `INSTALLED_APPS` in
-`settings.py`:
+`settings.py`, along with its dependencies, the Django REST Framework and the
+Django REST Framework `'authtoken'` app.
 
 ```
 INSTALLED_APPS = [
     ...
     'bookmarks.apps.BookmarksConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
     ...
 ]
 ```

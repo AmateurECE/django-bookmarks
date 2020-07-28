@@ -7,7 +7,7 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/10/2020
+// LAST EDITED:     07/28/2020
 ////
 
 import { Bookmark } from './Bookmark.js';
@@ -69,7 +69,9 @@ function deleteBookmark(event) {
 
     const bookmark = new Bookmark({
         // Extract the bookmark id from the element id.
-        id: /bookmark-(\d*)/.exec(ui_listItem.id)[1]
+        // TODO: Make this url part of the DOM, some how.
+        url: '/bookmarks/api/bookmarks/'
+            + /bookmark-(\d*)/.exec(ui_listItem.id)[1] + '/'
     });
 
     bookmark.delete(getToken());

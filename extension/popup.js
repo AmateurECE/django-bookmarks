@@ -7,26 +7,28 @@
 //
 // CREATED:         07/03/2020
 //
-// LAST EDITED:     07/10/2020
+// LAST EDITED:     07/29/2020
 ////
 
 import { FolderCollection } from 'api/FolderCollection.js';
 import { BookmarkCollection } from 'api/BookmarkCollection.js';
 import { Bookmark } from 'api/Bookmark.js';
+import { DevelopmentKey, DeploymentKey } from 'api/APIKeys.js';
 
-const hostName = 'http://localhost:8000';
+const hostName = 'https://edtwardy.hopto.org';
+// const hostName = 'http://localhost:8000';
+const apiKey = DeploymentKey;
 FolderCollection.host = hostName;
 BookmarkCollection.host = hostName;
 Bookmark.host = hostName;
 
-// Initialize the CSRF token
 let csrfToken;
 fetch(hostName + '/bookmarks/extension/', { method: 'GET' })
     .then(response => response.json())
     .then(data => csrfToken = data.token);
 
 // Datum for bookmark delete button. Set if this is a bookmark already
-let bookmarkId;
+let bookmarkUrl;
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Determine if this already is a bookmark
         const submitButton = document.querySelector('.submit');
-        BookmarkCollection.read().then(data => {
+        BookmarkCollection.read(apiKey).then(data => {
             data.forEach(element => {
                 if (element.pageLink == result.link) {
                     submitButton.innerHTML = 'Delete';
-                    bookmarkId = element.id;
+                    bookmarkUrl = element.url;
                 }
             });
         });
@@ -63,11 +65,11 @@ async function populateFolders() {
     const errorBanner = document.querySelector('.error-banner');
 
     try {
-        const folders = await FolderCollection.read();
+        const folders = await FolderCollection.read(apiKey);
         const select = document.getElementById('folder');
         folders.forEach((element) => {
             const option = document.createElement('option');
-            option.value = element.name;
+            option.value = element.url;
             option.innerText = element.name;
             select.appendChild(option);
         });
@@ -97,15 +99,15 @@ function createBookmark() {
     BookmarkCollection.create({
         pageTitle: document.getElementById('title').value,
         pageLink: document.getElementById('link').value,
-        folder: select.options[select.selectedIndex].text
-    }, csrfToken).then(bookmark => {
-        bookmarkId = bookmark.id;
+        folder: select.options[select.selectedIndex].value
+    }, csrfToken, apiKey).then(bookmark => {
+        bookmarkUrl = bookmark.url;
     });
 }
 
 function deleteBookmark() {
-    const bookmark = new Bookmark({id: bookmarkId});
-    bookmark.delete(csrfToken);
+    const bookmark = new Bookmark({url: bookmarkUrl});
+    bookmark.delete(csrfToken, apiKey);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
