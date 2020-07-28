@@ -1,6 +1,5 @@
 __pycache__
 /log/
 /node_modules/
-testIndex.html
-static/js/build/
+bookmarks/static/bookmarks/js/
 extension/build/

@@ -1,4 +1,4 @@
-include static/js/build/bundle.js
-recursive-include static/css *
-recursive-include static/images *
-recursive-include templates *
+include bookmarks/static/bookmarks/js/bundle.js
+recursive-include bookmarks/static/bookmarks/css *
+recursive-include bookmarks/static/bookmarks/images *
+recursive-include bookmarks/templates *

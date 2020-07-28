@@ -8,7 +8,7 @@
 #
 # CREATED:	    04/20/2020
 #
-# LAST EDITED:	    07/03/2020
+# LAST EDITED:	    07/27/2020
 ###
 
 sourceDir=$(shell realpath .)
@@ -28,5 +28,9 @@ docker:
 		-v "$(nginxConf):/etc/nginx/conf.d/default.conf:ro"\
 		-v "`realpath .`/log:/var/log/nginx" \
 		nginx:latest
+
+dist:
+	npx webpack --config webpack-static.config.js
+	python3 setup.py sdist
 
 ###############################################################################
