@@ -1,5 +1,5 @@
 ./js/main.js: Append to the list | id:06d4aa86dd0a98c37824fb3b3d6b0368e791ea07
 ./extension/popup.js: Change button to 'update' if the bookmark is existing and changed | id:5b6b23a8c80bb32065c37189db8bc1872bd8905c
-./js/main.js: Make this url part of the DOM, some how. | id:7a30af0ff6fc087c55620d78c2326cb15127995e
+./bookmarks/views.py: Inherit from SessionAuthentication to ensure permissions | id:5ea61a3678489fa9b9e2843b1b6d3b69fc8e89ec
 ./js/main.js: Implement a more aesthetically pleasing confirmation prompt. | id:c5a4950552e1133b1d1b0fdbfef00bb7f41243d4
 ./js/main.js: Insert in lexicographical order | id:ca290b5d6290aaef432f31b9de0832bffe02d83c

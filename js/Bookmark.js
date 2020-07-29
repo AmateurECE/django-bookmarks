@@ -10,47 +10,35 @@
 // LAST EDITED:     07/29/2020
 ////
 
+import { Ajax } from './Ajax.js';
+
 export class Bookmark {
     static host = '';
     static path = '/bookmarks/api/bookmark/';
 
+    setPropertyIfExists(parameters, propertyName) {
+        if (parameters.hasOwnProperty(propertyName)
+            && typeof(parameters[propertyName] === 'string')) {
+            this[propertyName] = parameters[propertyName];
+        }
+    }
+
     constructor(parameters) {
-        if (parameters.hasOwnProperty('url')
-            && typeof(parameters.url) === 'string') {
-            this.url = parameters.url;
-        }
-
-        if (parameters.hasOwnProperty('folder')
-            && typeof(parameters.folder) === 'string') {
-            this.folder = parameters.folder;
-        }
-
-        if (parameters.hasOwnProperty('pageLink')
-            && typeof(parameters.pageLink) === 'string') {
-            this.pageLink = parameters.pageLink;
-        }
-
-        if (parameters.hasOwnProperty('pageTitle')
-            && typeof(parameters.pageTitle) === 'string') {
-            this.pageTitle = parameters.pageTitle;
-        }
+        this.setPropertyIfExists(parameters, 'url');
+        this.setPropertyIfExists(parameters, 'folder');
+        this.setPropertyIfExists(parameters, 'pageLink');
+        this.setPropertyIfExists(parameters, 'pageTitle');
     }
 
     update() { throw Error('Unimplemented method: update'); }
 
-    async delete(csrfToken, apiKey) {
+    async delete(csrfToken, apiKey=undefined) {
         if (!this.url) {
             throw new Error('Cannot delete a bookmark which wasn\'t'
                             + ' instantiated with a url. Call read() first '
                             + 'to obtain the url.');
         }
-        const response = await fetch(this.url, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': csrfToken,
-                'Authorization': `Token ${apiKey}`
-            }
-        });
+        await Ajax.delete(this.url, csrfToken, apiKey);
     }
 }
 

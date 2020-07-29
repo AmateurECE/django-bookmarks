@@ -11,58 +11,37 @@
 ////
 
 import { Folder } from './Folder.js';
+import { Ajax } from './Ajax.js';
 
 export class FolderCollection {
     static host = '';
     static path = '/bookmarks/api/folders/';
 
-    static async create(folder, csrfToken, apiKey) {
+    static async create(folder, csrfToken, apiKey=undefined) {
         if (!folder.hasOwnProperty('name') || !folder.name) {
             throw new Error('Cannot create a folder without a name');
         }
 
-        const response = await fetch(
-            FolderCollection.host + FolderCollection.path, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                    'Authorization': `Token ${apiKey}`},
-                body: JSON.stringify({name: folder.name})
-            });
+        const response = await Ajax.post(
+            FolderCollection.host + FolderCollection.path,
+            csrfToken, apiKey,
+            JSON.stringify({name: folder.name})
+        );
 
-        if (response.ok) {
-            const data = await response.json();
-            return new Folder({url: data.url, name: data.name});
-        }
-
-        // Should be unreachable
-        throw new Error('Failed to create folder');
+        return new Folder({url: response.url, name: response.name});
     }
 
-    static async read(apiKey) {
-        const response = await fetch(
-            FolderCollection.host + FolderCollection.path, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Token ${apiKey}`
-                }
-            });
+    static async read(apiKey=undefined) {
+        const response = await Ajax.get(
+            FolderCollection.host + FolderCollection.path, apiKey
+        );
 
-        if (response.ok) {
-            const responseData = await response.json();
+        let folders = [];
+        response.forEach((element) => {
+            folders.push(new Folder(element));
+        });
 
-            let folders = [];
-            responseData.forEach((element) => {
-                folders.push(new Folder(element));
-            });
-
-            return folders;
-        }
-
-        // Should be unreachable
-        throw new Error('Failed to read the folders');
+        return folders;
     }
 }
 

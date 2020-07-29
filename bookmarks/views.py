@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import SessionAuthentication
 import json
 
 from .models import Folder, Bookmark
@@ -45,15 +46,17 @@ class FolderViewSet(viewsets.ModelViewSet):
 # Protected Views
 ###
 
+# TODO: Inherit from SessionAuthentication to ensure permissions
+
 class ProtectedBookmarkListView(PermissionRequiredMixin, BookmarkListView):
     permission_required = 'bookmarks.view_bookmark'
 
 class ProtectedBookmarkViewSet(BookmarkViewSet):
     """API endpoint that allows bookmarks to be viewed or edited."""
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
 class ProtectedFolderViewSet(FolderViewSet):
     """API endpoint that allows folders to be viewed or edited."""
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
