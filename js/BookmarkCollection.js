@@ -18,11 +18,8 @@ export class BookmarkCollection {
     static path = '/bookmarks/api/bookmarks/';
 
     static async create(bookmark, csrfToken, apiKey=undefined) {
-        if (!bookmark.hasOwnProperty('pageTitle') || !bookmark.pageTitle ||
-            !bookmark.hasOwnProperty('pageLink') || !bookmark.pageLink ||
-            !bookmark.hasOwnProperty('folder')|| !bookmark.folder) {
-            throw new Error('Cannot create a bookmark without the three '
-                            + 'parameters pageTitle, pageLink, folder');
+        if (!bookmark instanceof Bookmark) {
+            throw new Error('Must pass in a valid Bookmark object');
         }
 
         const response = await Ajax.post(

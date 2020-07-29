@@ -18,8 +18,8 @@ export class FolderCollection {
     static path = '/bookmarks/api/folders/';
 
     static async create(folder, csrfToken, apiKey=undefined) {
-        if (!folder.hasOwnProperty('name') || !folder.name) {
-            throw new Error('Cannot create a folder without a name');
+        if (!folder instanceof Folder) {
+            throw new Error('Must pass in a valid Folder object');
         }
 
         const response = await Ajax.post(

@@ -13,9 +13,6 @@
 import { Ajax } from './Ajax.js';
 
 export class Bookmark {
-    static host = '';
-    static path = '/bookmarks/api/bookmark/';
-
     setPropertyIfExists(parameters, propertyName) {
         if (parameters.hasOwnProperty(propertyName)
             && typeof(parameters[propertyName] === 'string')) {
