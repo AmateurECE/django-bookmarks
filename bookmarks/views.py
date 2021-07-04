@@ -18,9 +18,8 @@ class BookmarkListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'display' in self.kwargs:
-            context['display'] = self.kwargs['display']
-        else:
+        context['display'] = self.request.GET.get('display', 'list')
+        if context['display'] != 'cards' and context['display'] != 'list':
             context['display'] = 'list'
         return context
 
