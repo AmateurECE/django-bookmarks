@@ -8,7 +8,7 @@
 #
 # CREATED:	    04/20/2020
 #
-# LAST EDITED:	    07/27/2020
+# LAST EDITED:	    08/01/2021
 ###
 
 sourceDir=$(shell realpath .)
@@ -16,6 +16,29 @@ nginxConf=$(shell realpath .)/development-site.conf
 containerName=bookmarks
 networkName=nginx-net
 rootDirectory=/var/www/website.com
+
+dist: dist/django_bookmarks-1.0-py3-none-any.whl
+
+bundle = bookmarks/static/bookmarks/js/bundle.js
+
+bundle-deps = \
+	$(shell find js) \
+	webpack-static.config.js \
+	package.json \
+	package-lock.json
+
+$(bundle): $(bundle-deps)
+	npx webpack --config webpack-static.config.js
+
+bdist-deps = \
+	$(shell find bookmarks) \
+	setup.py \
+	MANIFEST.in \
+	$(bundle)
+
+dist/django_bookmarks-1.0-py3-none-any.whl: $(bdist-deps)
+	python3 setup.py sdist
+	python3 setup.py bdist_wheel
 
 docker:
 	python3 ../manage.py runserver &
@@ -28,9 +51,5 @@ docker:
 		-v "$(nginxConf):/etc/nginx/conf.d/default.conf:ro"\
 		-v "`realpath .`/log:/var/log/nginx" \
 		nginx:latest
-
-dist:
-	npx webpack --config webpack-static.config.js
-	python3 setup.py sdist
 
 ###############################################################################
