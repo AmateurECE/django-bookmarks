@@ -1,19 +1,21 @@
-from django.shortcuts import render
 from django.middleware import csrf
 from django.http import HttpResponse
 from django.views import generic
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.conf import settings
+from django.utils.module_loading import import_string
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authentication import SessionAuthentication
 import json
 
 from .models import Folder, Bookmark
 from .serializers import BookmarkSerializer, FolderSerializer
 
+AuthMixin = import_string(
+    getattr(settings, 'BOOKMARKS_AUTH_MIXIN',
+            'django.contrib.auth.mixins.UserPassesTestMixin')
+)
+
 # Create your views here.
-class BookmarkListView(generic.ListView):
+class BookmarkListView(AuthMixin, generic.ListView):
     model = Folder
 
     def get_context_data(self, **kwargs):
@@ -22,6 +24,10 @@ class BookmarkListView(generic.ListView):
         if context['display'] != 'cards' and context['display'] != 'list':
             context['display'] = 'list'
         return context
+
+    def test_func(self):
+        # If this is defined, we don't want to allow access
+        return not hasattr(settings, 'BOOKMARKS_AUTH_MIXIN')
 
 def extension(request):
     return HttpResponse(json.dumps({'token': csrf.get_token(request)}),
@@ -33,29 +39,16 @@ def extension(request):
 
 class BookmarkViewSet(viewsets.ModelViewSet):
     """API endpoint that allows bookmarks to be viewed or edited."""
+    authentication_classes = getattr(settings, 'BOOKMARKS_AUTH_CLASSES', [])
+    permission_classes = getattr(settings, 'BOOKMARKS_PERM_CLASSES', [])
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
 
 class FolderViewSet(viewsets.ModelViewSet):
     """API endpoint that allows folders to be viewed or edited."""
+    authentication_classes = getattr(settings, 'BOOKMARKS_AUTH_CLASSES', [])
+    permission_classes = getattr(settings, 'BOOKMARKS_PERM_CLASSES', [])
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
 
 ###############################################################################
-# Protected Views
-###
-
-# TODO: Inherit from SessionAuthentication to ensure permissions
-
-class ProtectedBookmarkListView(PermissionRequiredMixin, BookmarkListView):
-    permission_required = 'bookmarks.view_bookmark'
-
-class ProtectedBookmarkViewSet(BookmarkViewSet):
-    """API endpoint that allows bookmarks to be viewed or edited."""
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
-
-class ProtectedFolderViewSet(FolderViewSet):
-    """API endpoint that allows folders to be viewed or edited."""
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
