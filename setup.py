@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='django-bookmarks',
-    version='1.0',
+    version='2.0',
     author='Ethan D. Twardy',
     author_email='ethan.twardy@gmail.com',
     description='Django application for creating and storing bookmarks',
