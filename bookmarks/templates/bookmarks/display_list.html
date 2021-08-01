@@ -1,0 +1,21 @@
+<ul class="list-group">
+  {% load static %}
+  {% for bookmark in folder.bookmark_set.all %}
+  <li id="bookmark-{{ bookmark.pk }}"class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center py-1">{{ bookmark.pageTitle }}
+    <input
+      name="bookmark-url" type="hidden"
+      value="{{ request.path }}api/bookmarks/{{ bookmark.id }}/"/>
+    <div class="action-container">
+      <a class="btn btn-outline-dark" target="_blank"
+         href="{{ bookmark.pageLink }}">Visit</a>
+      <div class="button-transitioner">
+        <img class="btn delete bottom" alt="delete"
+             src="{% static 'bookmarks/images/delete.svg' %}"/>
+        <img
+          class="btn delete top" alt="delete"
+          src="{% static 'bookmarks/images/delete-filled.svg' %}"/>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

@@ -3,8 +3,7 @@
 <h2 class="mt-2 mb-4">Bookmarks</h2>
 <div class="container" id="bookmark-container">
   {% csrf_token %}
-  {% if folder_list %}
-  {% for folder in folder_list %}
+  {% if folder %}
   <div class="folder pb-5" id="folder-{{ folder.name|lower }}">
     <h5 class="folder-title">{{ folder.name }}</h5>
     {% ifequal display 'list' %}
@@ -13,7 +12,6 @@
     {% include 'bookmarks/display_cards.html' %}
     {% endifequal %}
   </div>
-  {% endfor %}
   {% else %}
   <p>You have no bookmarks yet!</p>
   {% endif %}

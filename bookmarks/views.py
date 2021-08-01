@@ -14,8 +14,21 @@ AuthMixin = import_string(
             'django.contrib.auth.mixins.UserPassesTestMixin')
 )
 
-# Create your views here.
-class BookmarkListView(AuthMixin, generic.ListView):
+class FolderDetailView(AuthMixin, generic.DetailView):
+    model = Folder
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['display'] = self.request.GET.get('display', 'list')
+        if context['display'] != 'cards' and context['display'] != 'list':
+            context['display'] = 'list'
+        return context
+
+    def test_func(self):
+        # If this is defined, we don't want to allow access
+        return not hasattr(settings, 'BOOKMARKS_AUTH_MIXIN')
+
+class FolderListView(AuthMixin, generic.ListView):
     model = Folder
 
     def get_context_data(self, **kwargs):

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    {% load static %}
+    <link rel="shortcut icon" sizes="any" type="image/svg+xml" href="{% static 'bookmarks/images/favicon.svg' %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'bookmarks/css/style.css' %}" />
+    <title>Bookmarks</title>
+  </head>
+  <body class="bg-dark text-white">
+    <div class="form-overlay">
+      <div id="new-folder-form" class="form">
+        <h5>Add a new Folder</h5>
+        <form action="">
+          <div class="form-input-group">
+            <label for="name">Name</label>
+            <input name="name" type="text" value="" placeholder="Folder Name"/>
+          </div>
+          <div class="form-submit-group">
+            <button class="btn btn-dark submit okay">Okay</button>
+            <button class="btn btn-dark submit cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row vh-100">
+        <div id="nav-column" class="col-3 col-lg-2 px-0 bg-real-dark">
+          <nav class="navbar navbar-dark bg-real-dark text-white sticky-top">
+            <div class="navbar-nav">
+              <div class="row">
+                <h4>Folders</h4>
+                <div id="new-folder-button" href="#">
+                  <img alt="new folder"
+                       src="{% static 'bookmarks/images/new-folder.svg' %}"/>
+                </div>
+              </div>
+              <div id="folder-list">
+                {% if folder_list %}
+                {% for folder in folder_list %}
+                <a class="nav-link active"
+                   href="#folder-{{ folder.name|lower }}">{{ folder.name }}</a>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <main class="col-9 col-lg-10 border-left border-dark min-vh-100">
+          {% block content %}
+          {% endblock %}
+        </main>
+        <footer>
+          <div class="footer-content">
+            <p>Bookmarks, &copy; Ethan D.
+              Twardy 2020. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
+    </div>
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>
